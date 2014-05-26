@@ -20,10 +20,12 @@ module GasBlender
     end
 
     def -(other)
+      other = GasBlender::Pressure(other)
       self.class.new(magnitude - other.send(converter).magnitude)
     end
 
     def +(other)
+      other = GasBlender::Pressure(other)
       self.class.new(magnitude + other.send(converter).magnitude)
     end
 
@@ -44,6 +46,7 @@ module GasBlender
     end
 
     def <=>(other)
+      other = GasBlender::Pressure(other)
       magnitude - other.send(converter).magnitude
     end
 

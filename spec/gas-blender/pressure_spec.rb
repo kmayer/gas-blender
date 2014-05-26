@@ -1,4 +1,4 @@
-require "gas-blender/pressure"
+require "gas-blender"
 
 module GasBlender
   describe Pressure do
@@ -62,6 +62,24 @@ module GasBlender
 
     it "converts to psi" do
       expect(pressure.to_psi).to eq(PSI.new(1))
+    end
+  end
+
+  describe "Conversion function" do
+    it "is idempotent" do
+      expect(GasBlender::Pressure(Bar.new(1))).to eq(Bar.new(1))
+      expect(GasBlender::Pressure(PSI.new(1))).to eq(PSI.new(1))
+    end
+
+    it "parses strings" do
+      expect(GasBlender::Pressure("1 bar")).to eq(Bar.new(1))
+      expect(GasBlender::Pressure("1 psi")).to eq(PSI.new(1))
+    end
+
+    it "raises a helpful error" do
+      expect {
+        GasBlender::Pressure(1.0)
+      }.to raise_error(TypeError)
     end
   end
 end
