@@ -20,6 +20,14 @@ module GasBlender
       expect(pressure).to eq(Bar.new(1))
     end
 
+    it "is not rude by comparison" do
+      expect(pressure).to_not eq("fish")
+    end
+
+    it "will implicitly convert, however" do
+      expect(pressure).to eq(PSI.new(14.5038))
+    end
+
     it "converts to bar" do
       expect(pressure.to_bar).to eq(Bar.new(1))
     end
@@ -38,6 +46,14 @@ module GasBlender
 
     it "is equal by value" do
       expect(pressure).to eq(PSI.new(1))
+    end
+
+    it "is not rude by comparison" do
+      expect(pressure).to_not eq("fish")
+    end
+
+    it "will implicitly convert, however" do
+      expect(pressure).to eq(Bar.new(0.0689474))
     end
 
     it "converts to bar" do

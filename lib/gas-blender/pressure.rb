@@ -1,8 +1,14 @@
 module GasBlender
   class Pressure
+    CONVERSION_TOLERANCE = 0.000_001
+
     def initialize(magnitude)
       @magnitude = magnitude.to_f
       freeze
+    end
+
+    def inspect
+      "%.6f" % magnitude
     end
 
     protected
@@ -16,7 +22,7 @@ module GasBlender
     end
 
     def ==(other)
-      magnitude == other.to_bar.magnitude
+      other.respond_to?(:to_bar) && (magnitude - other.to_bar.magnitude) < CONVERSION_TOLERANCE
     end
 
     def to_bar
@@ -34,7 +40,7 @@ module GasBlender
     end
 
     def ==(other)
-      magnitude == other.to_psi.magnitude
+      other.respond_to?(:to_psi) && (magnitude - other.to_psi.magnitude) < CONVERSION_TOLERANCE
     end
 
     def to_psi
