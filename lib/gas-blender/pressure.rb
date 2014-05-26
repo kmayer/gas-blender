@@ -11,6 +11,46 @@ module GasBlender
       "%.6f" % magnitude
     end
 
+    def ==(other)
+      other.respond_to?(converter) && (magnitude - other.send(converter).magnitude) < CONVERSION_TOLERANCE
+    end
+
+    def zero?
+      magnitude.abs < CONVERSION_TOLERANCE
+    end
+
+    def -(other)
+      self.class.new(magnitude - other.send(converter).magnitude)
+    end
+
+    def +(other)
+      self.class.new(magnitude + other.send(converter).magnitude)
+    end
+
+    def *(factor)
+      self.class.new(magnitude * factor.to_f)
+    end
+
+    def /(denominator)
+      if denominator.class == self.class
+        magnitude / denominator.magnitude.to_f
+      else
+        self.class.new(magnitude / denominator.to_f)
+      end
+    end
+
+    def abs
+      self.class.new(magnitude.abs)
+    end
+
+    def <=>(other)
+      magnitude - other.send(converter).magnitude
+    end
+
+    def <=(other)
+      (self <=> other) <= 0.0
+    end
+
     protected
 
     attr_reader :magnitude
@@ -21,8 +61,8 @@ module GasBlender
       "%.1f bar" % magnitude
     end
 
-    def ==(other)
-      other.respond_to?(:to_bar) && (magnitude - other.to_bar.magnitude) < CONVERSION_TOLERANCE
+    def converter
+      :to_bar
     end
 
     def to_bar
@@ -39,8 +79,8 @@ module GasBlender
       "%.1f psi" % magnitude
     end
 
-    def ==(other)
-      other.respond_to?(:to_psi) && (magnitude - other.to_psi.magnitude) < CONVERSION_TOLERANCE
+    def converter
+      :to_psi
     end
 
     def to_psi
