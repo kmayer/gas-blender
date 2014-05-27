@@ -7,6 +7,11 @@ module GasBlender
     it "is immutable" do
       expect(pressure).to be_frozen
     end
+
+    it "is hashes by magnitude and class" do
+      expect(Pressure.new(1).hash).to eq(Pressure.new(1).hash)
+      expect(Pressure.new(1).hash).not_to eq(Bar.new(1).hash)
+    end
   end
 
   describe Bar do
@@ -18,6 +23,10 @@ module GasBlender
 
     it "is equal by value" do
       expect(pressure).to eq(Bar.new(1))
+    end
+
+    it "equal values have eql? hashes" do
+      expect(Bar.new(1)).to be_eql(Bar.new(1))
     end
 
     it "is not rude by comparison" do
@@ -52,6 +61,10 @@ module GasBlender
 
     it "is equal by value" do
       expect(pressure).to eq(PSI.new(1))
+    end
+
+    it "equal values have eql? hashes" do
+      expect(PSI.new(1)).to be_eql(PSI.new(1))
     end
 
     it "is not rude by comparison" do

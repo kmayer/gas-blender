@@ -18,6 +18,12 @@ module GasBlender
       magnitude.round(PRECISION) <=> other.send(converter).magnitude.round(PRECISION)
     end
 
+    def hash
+      [magnitude, self.class].hash
+    end
+
+    alias_method :eql?, :==
+
     def zero?
       magnitude.round(PRECISION) == 0.0
     end
