@@ -30,3 +30,21 @@ module GasBlender
     end
   end
 end
+
+class Fixnum
+  def bar
+    GasBlender::Bar.new(self)
+  end
+  def psi
+    GasBlender::PSI.new(self)
+  end
+end
+
+class Float
+  def bar
+    GasBlender::Bar.new(self)
+  end
+  def psi
+    GasBlender::PSI.new(self)
+  end
+end
