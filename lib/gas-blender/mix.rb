@@ -15,6 +15,12 @@ module GasBlender
       other.is_a?(self.class) && magnitude <=> other.magnitude
     end
 
+    alias_method :eql?, :==
+
+    def hash
+      [magnitude, Mix].hash
+    end
+
     def -(other)
       raise TypeError, "#{other.inspect} is not a #{self.class}" unless other.is_a?(self.class)
       magnitude - other.magnitude

@@ -16,5 +16,10 @@ module GasBlender
       expect(Mix.new(0.28) <=> Mix.new(0.28)).to eq(0)
       expect(Mix.new(0.28) <=> Mix.new(0.36)).to eq(-1)
     end
+
+    it "is hashable" do
+      expect(Mix.new(0.36).hash).to eq(Mix.new(0.36).hash)
+      expect(Mix.new(0.36)).to be_eql(Mix.new(0.36))
+    end
   end
 end
