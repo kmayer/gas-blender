@@ -21,6 +21,25 @@ module GasBlender
       end
     end
 
+    def mod(max_ppO2)
+      case tank.service_pressure
+      when GasBlender::PSI
+        mod_fsw(max_ppO2)
+      when GasBlender::Bar
+        mod_msw(max_ppO2)
+      else
+        raise TypeError, "Unknown tank service pressure, #{tank.inspect}"
+      end
+    end
+
+    def mod_fsw(max_ppO2)
+      mod_atm(max_ppO2).to_fsw - GasBlender::ATM.new(1.0).to_fsw
+    end
+
+    def mod_msw(max_ppO2)
+      mod_atm(max_ppO2).to_msw - GasBlender::ATM.new(1.0).to_msw
+    end
+
     private
 
     alias :fO2_want :mix
@@ -55,6 +74,10 @@ module GasBlender
 
     def pressure_need
       pressure_want - pressure_have
+    end
+
+    def mod_atm(max_ppO2)
+      GasBlender::ATM.new((max_ppO2.to_bar / mix) / Bar.new(1.0))
     end
   end
 end

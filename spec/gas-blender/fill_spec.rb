@@ -110,5 +110,46 @@ module GasBlender
         expect(fill.pressure).to be_within(1.psi).of(544.psi)
       end
     end
+
+    describe "maximum operating depth" do
+      # http://en.wikipedia.org/wiki/Maximum_operating_depth
+      context "Imperial" do
+        let(:tank) { Tank.new(service_pressure: 3000.psi)}
+
+        it "given EAN36 and max ppO2 of 1.4" do
+          fill = Fill.new(mix: 36.ean, tank: tank)
+          expect(fill.mod(1.4.bar)).to be_within(0.1.feet).of(95.3.feet)
+        end
+
+        it "EAN3 and max ppO2 of 1.6" do
+          fill = Fill.new(mix: 3.ean)
+          expect(fill.mod_fsw(1.6.bar)).to be_within(1.feet).of(1727.feet)
+        end
+
+        it "EAN100 and max ppO2 of 1.2" do
+          fill = Fill.new(mix: 100.ean)
+          expect(fill.mod_fsw(1.2.bar)).to be_within(1.feet).of(6.feet)
+        end
+      end
+
+      context "Metric" do
+        let(:tank) { Tank.new(service_pressure: 200.bar)}
+
+        it "given EAN36 and ppO2 of 1.4" do
+          fill = Fill.new(mix: 36.ean, tank: tank)
+          expect(fill.mod(1.4.bar)).to be_within(0.1.meters).of(28.9.meters)
+        end
+
+        it "EAN3 and max ppO2 of 1.2" do
+          fill = Fill.new(mix: 3.ean)
+          expect(fill.mod_msw(1.2.bar)).to be_within(0.1.meters).of(390.0.meters)
+        end
+
+        it "EAN100 and max ppO2 of 1.6" do
+          fill = Fill.new(mix: 100.ean)
+          expect(fill.mod_msw(1.6.bar)).to be_within(0.1.meters).of(6.0.meters)
+        end
+      end
+    end
   end
 end

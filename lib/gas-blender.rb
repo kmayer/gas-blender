@@ -1,5 +1,6 @@
 require_relative "gas-blender/version"
 require_relative "gas-blender/pressure"
+require_relative "gas-blender/length"
 require_relative "gas-blender/tank"
 require_relative "gas-blender/fill"
 require_relative "gas-blender/mix"
@@ -42,6 +43,12 @@ class Fixnum
   def ean
     GasBlender::Mix.new(self / 100.0)
   end
+  def feet
+    GasBlender::Feet.new(self)
+  end
+  def meters
+    GasBlender::Meter.new(self)
+  end
 end
 
 class Float
@@ -50,5 +57,11 @@ class Float
   end
   def psi
     GasBlender::PSI.new(self)
+  end
+  def feet
+    GasBlender::Feet.new(self)
+  end
+  def meters
+    GasBlender::Meter.new(self)
   end
 end

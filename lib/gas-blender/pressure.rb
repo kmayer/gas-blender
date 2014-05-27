@@ -53,4 +53,18 @@ module GasBlender
       Bar.new(magnitude * 0.0689475729)
     end
   end
+
+  class ATM < Pressure
+    def to_s
+      "%.#{PRECISION}f atm" % magnitude
+    end
+
+    def to_fsw
+      Feet.new(33) * self.magnitude
+    end
+
+    def to_msw
+      Meter.new(10) * self.magnitude
+    end
+  end
 end
