@@ -6,7 +6,7 @@ module GasBlender
     attr_reader :top_off_mix
 
     def initialize(attributes)
-      @mix = attributes.delete(:mix)
+      @mix = attributes.delete(:mix) || Mix.new(0.21)
       @tank = attributes.delete(:tank)
       @fill_mix = attributes.delete(:fill_mix) || Mix.new(1.0)
       @top_off_mix = attributes.delete(:top_off_mix) || Mix.new(0.21)
