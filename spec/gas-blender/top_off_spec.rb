@@ -7,7 +7,7 @@ module GasBlender
         service_pressure: 200.bar
       )
       fill = Fill.new(
-        mix:  0.32,
+        mix:  32.ean,
         tank: tank
       )
       expect(fill.pressure).to be_within(0.05.bar).of(27.8.bar)
@@ -18,7 +18,7 @@ module GasBlender
         service_pressure: 3000.psi
       )
       fill = Fill.new(
-        mix:  0.36,
+        mix:  36.ean,
         tank: tank
       )
       expect(fill.pressure).to be_within(0.05.psi).of(569.6.psi)
@@ -28,10 +28,10 @@ module GasBlender
       tank = Tank.new(
         service_pressure: 200.bar,
         current_pressure: 67.bar,
-        current_mix:      0.32
+        current_mix:      32.ean
       )
       fill = Fill.new(
-        mix:  0.36,
+        mix:  36.ean,
         tank: tank
       )
       expect(fill.pressure).to be_within(0.05.bar).of(tank.current_pressure + 28.6.bar)
@@ -41,12 +41,12 @@ module GasBlender
       tank = Tank.new(
         service_pressure: 3000.psi,
         current_pressure: 1000.psi,
-        current_mix:      0.28
+        current_mix:      28.ean
       )
       fill = Fill.new(
-        mix:      0.36,
+        mix:      36.ean,
         tank:     tank,
-        fill_mix: 0.50
+        fill_mix: 50.ean
       )
       expect(fill.pressure).to be_within(0.5.psi).of(tank.current_pressure + 1310.psi)
     end
@@ -56,9 +56,9 @@ module GasBlender
         service_pressure: 232.bar
       )
       fill = Fill.new(
-        mix:         0.36,
+        mix:         36.ean,
         tank:        tank,
-        top_off_mix: 0.32
+        top_off_mix: 32.ean
       )
       expect(fill.pressure).to be_within(0.05.bar).of(tank.current_pressure + 13.6.bar)
     end
@@ -67,9 +67,12 @@ module GasBlender
       tank = Tank.new(
         service_pressure: 220.bar,
         current_pressure: 220.bar,
-        current_mix:      0.36
+        current_mix:      36.ean
       )
-      fill = Fill.new(mix: 0.32, tank: tank)
+      fill = Fill.new(
+        mix: 32.ean,
+        tank: tank
+      )
       expect(fill.pressure).to be_within(0.05.bar).of(tank.current_pressure - 58.7.bar)
     end
   end

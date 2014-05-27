@@ -100,5 +100,9 @@ module GasBlender
         GasBlender::Pressure(1.0)
       }.to raise_error(TypeError)
     end
+
+    it "EAN" do
+      expect(32.ean).to eq(Mix.new(0.32))
+    end
   end
 end

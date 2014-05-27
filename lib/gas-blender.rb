@@ -2,6 +2,7 @@ require_relative "gas-blender/version"
 require_relative "gas-blender/pressure"
 require_relative "gas-blender/tank"
 require_relative "gas-blender/fill"
+require_relative "gas-blender/mix"
 
 module GasBlender
   module_function
@@ -37,6 +38,9 @@ class Fixnum
   end
   def psi
     GasBlender::PSI.new(self)
+  end
+  def ean
+    GasBlender::Mix.new(self / 100.0)
   end
 end
 

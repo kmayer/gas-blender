@@ -8,8 +8,8 @@ module GasBlender
     def initialize(attributes)
       @mix = attributes.delete(:mix)
       @tank = attributes.delete(:tank)
-      @fill_mix = attributes.delete(:fill_mix) || 1.00
-      @top_off_mix = attributes.delete(:top_off_mix) || 0.21
+      @fill_mix = attributes.delete(:fill_mix) || Mix.new(1.0)
+      @top_off_mix = attributes.delete(:top_off_mix) || Mix.new(0.21)
       raise RuntimeError, "Invalid attributes: #{attributes.keys.inspect}" unless attributes == {}
     end
 
@@ -26,11 +26,11 @@ module GasBlender
     alias :fO2_want :mix
 
     def fO2_have
-      tank.current_mix
+      Mix.new(tank.current_mix)
     end
 
     def fO2_need
-      ppO2_need / pressure_need
+      Mix.new(ppO2_need / pressure_need)
     end
 
     def ppO2_want
