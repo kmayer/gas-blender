@@ -70,10 +70,43 @@ module GasBlender
         current_mix:      36.ean
       )
       fill = Fill.new(
-        mix: 32.ean,
+        mix:  32.ean,
         tank: tank
       )
       expect(fill.pressure).to be_within(0.05.bar).of(tank.current_pressure - 58.7.bar)
+    end
+
+    # Some more examples from the workbook
+    it "given a tank with 720 psi of 31.3, fill to 3000 psi of EAN31" do
+      tank = Tank.new(
+        service_pressure: 3000.psi,
+        current_pressure: 720.psi,
+        current_mix:      Mix.new(0.313)
+      )
+      fill = Fill.new(
+        mix:  31.ean,
+        tank: tank
+      )
+      expect(fill.pressure).to be_within(1.psi).of(1005.psi)
+    end
+
+    it "given an empty tank, fill to 3000 psi with EAN31" do
+      tank = Tank.new(service_pressure: 3000.psi)
+      fill = Fill.new(mix: 31.ean, tank: tank)
+      expect(fill.pressure).to be_within(1.psi).of(380.psi)
+    end
+
+    it "given a tank with 190 psi of 31.7%, fill to 3000 psi of EAN31" do
+      tank = Tank.new(
+        service_pressure: 3000.psi,
+        current_pressure: 190.psi,
+        current_mix:      Mix.new(0.317)
+      )
+      fill = Fill.new(
+        mix:  31.ean,
+        tank: tank
+      )
+      expect(fill.pressure).to be_within(1.psi).of(544.psi)
     end
   end
 end
