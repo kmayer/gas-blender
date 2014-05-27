@@ -1,6 +1,8 @@
 module GasBlender
   class Pressure
-    CONVERSION_TOLERANCE = 0.000_001
+    include Comparable
+
+    PRECISION = 8
 
     def initialize(magnitude)
       @magnitude = magnitude.to_f
@@ -8,15 +10,16 @@ module GasBlender
     end
 
     def inspect
-      "%.6f" % magnitude
+      "%.#{PRECISION}f" % magnitude
     end
 
-    def ==(other)
-      other.respond_to?(converter) && (magnitude - other.send(converter).magnitude) < CONVERSION_TOLERANCE
+    def <=>(other)
+      other = GasBlender::Pressure(other)
+      magnitude.round(PRECISION) <=> other.send(converter).magnitude.round(PRECISION)
     end
 
     def zero?
-      magnitude.abs < CONVERSION_TOLERANCE
+      magnitude.round(PRECISION) == 0.0
     end
 
     def -(other)
@@ -45,15 +48,6 @@ module GasBlender
       self.class.new(magnitude.abs)
     end
 
-    def <=>(other)
-      other = GasBlender::Pressure(other)
-      magnitude - other.send(converter).magnitude
-    end
-
-    def <=(other)
-      (self <=> other) <= 0.0
-    end
-
     protected
 
     attr_reader :magnitude
@@ -61,7 +55,7 @@ module GasBlender
 
   class Bar < Pressure
     def to_s
-      "%.1f bar" % magnitude
+      "%.#{PRECISION}f bar" % magnitude
     end
 
     def converter
@@ -73,13 +67,13 @@ module GasBlender
     end
 
     def to_psi
-      PSI.new(magnitude * 14.5038)
+      PSI.new(magnitude * 14.5037738)
     end
   end
 
   class PSI < Pressure
     def to_s
-      "%.1f psi" % magnitude
+      "%.#{PRECISION}f psi" % magnitude
     end
 
     def converter
@@ -91,7 +85,7 @@ module GasBlender
     end
 
     def to_bar
-      Bar.new(magnitude * 0.0689474)
+      Bar.new(magnitude * 0.0689475729)
     end
   end
 end

@@ -13,7 +13,7 @@ module GasBlender
     subject(:pressure) { Bar.new(1) }
 
     it "has a nice string representation" do
-      expect(pressure.to_s).to eq("1.0 bar")
+      expect(pressure.to_s).to eq("1.00000000 bar")
     end
 
     it "is equal by value" do
@@ -25,7 +25,13 @@ module GasBlender
     end
 
     it "will implicitly convert, however" do
-      expect(pressure).to eq(PSI.new(14.5038))
+      expect(pressure).to eq(PSI.new(14.5037738))
+    end
+
+    it "implements Comparable" do
+      expect(Bar.new(9) <=> Bar.new(5)).to eq(1)
+      expect(Bar.new(5) <=> Bar.new(5)).to eq(0)
+      expect(Bar.new(5) <=> Bar.new(9)).to eq(-1)
     end
 
     it "converts to bar" do
@@ -33,7 +39,7 @@ module GasBlender
     end
 
     it "converts to psi" do
-      expect(pressure.to_psi).to eq(PSI.new(14.5038))
+      expect(pressure.to_psi).to eq(PSI.new(14.5037738))
     end
   end
 
@@ -41,7 +47,7 @@ module GasBlender
     subject(:pressure) { PSI.new(1) }
 
     it "has a nice string representation" do
-      expect(pressure.to_s).to eq("1.0 psi")
+      expect(pressure.to_s).to eq("1.00000000 psi")
     end
 
     it "is equal by value" do
@@ -53,11 +59,11 @@ module GasBlender
     end
 
     it "will implicitly convert, however" do
-      expect(pressure).to eq(Bar.new(0.0689474))
+      expect(pressure).to eq(Bar.new(0.0689475729))
     end
 
     it "converts to bar" do
-      expect(pressure.to_bar).to eq(Bar.new(0.0689474))
+      expect(pressure.to_bar).to eq(Bar.new(0.0689475729))
     end
 
     it "converts to psi" do
